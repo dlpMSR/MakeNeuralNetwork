@@ -1,3 +1,6 @@
+import numpy
+import scipy.special
+
 class newralNetwork:
     def __init__(self, input_nodes, hidden_nodes,
                  output_nodes, learning_rate):
@@ -5,12 +8,35 @@ class newralNetwork:
         self.hnodes = hidden_nodes
         self.onodes = output_nodes
         self.lr = learning_rate
+        
+        self.wih = numpy.random.rand(self.hnodes, self.inodes) - 0.5
+        self.who = numpy.random.rand(self.onodes, self.hnodes) - 0.5
+
+        self.activation_function = lambda x: scipy.special.expit(x)
         pass
 
-    def train():
+    def train(self, inputs_list, targets_list):
+        inputs = numpy.array(inputs_list, ndmin=2).T
+        targets = numpy.array(targets_list, ndmin=2).T        
+        
+        hidden_inputs = numpy.dot(self.wih, inputs)
+        hidden_outputs = self.activation_function(hidden_inputs)
+
+        final_inputs = numpy.dot(self.who, hidden_outputs)
+        final_outputs = self.activation_function(final_inputs)
+
+        output_errors = targets - final_outputs
+        
         pass
 
-    def query():
+    def query(self, inputs_list):
+        inputs = numpy.array(inputs_list, ndmin=2).T
+
+        hidden_inputs = numpy.dot(self.wih, inputs)
+        hidden_outputs = self.activation_function(hidden_inputs)
+
+        final_inputs = numpy.dot(self.who, hidden_outputs)
+        final_outputs = self.activation_function(final_inputs)
         pass
 
 
